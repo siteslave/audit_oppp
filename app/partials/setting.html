@@ -1,0 +1,88 @@
+<toaster-container toaster-options="{'time-out': 3000, 'close-button': true}"></toaster-container>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <i class="fa fa-database"></i> กำหนดค่าการเชื่อมต่อ
+  </div>
+  <div class="panel-body">
+    <form action="#" class="form-horizontal" role="form">
+      <div class="form-group">
+        <label class="col-sm-4 control-label">ที่อยู่ฐานข้อมูล (Host)</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" ng-model="config.host"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label">พอร์ต (Port)</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" ng-model="config.port"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label">ชื่อฐานข้อมูล (Database)</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" ng-model="config.database"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label">ชื่อผู้ใช้งาน (Username)</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" ng-model="config.user"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label">รหัสผ่าน (Password)</label>
+        <div class="col-sm-6">
+          <input type="password" class="form-control" ng-model="config.password"/>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="panel-footer">
+    <button class="btn btn-success" type="button" ng-click="doSave()">
+      <i class="fa fa-save"></i> บันทึก
+    </button>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <i class="fa fa-th-list"></i> หน่วยบริการ
+  </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th width="10%">#</th>
+        <th>รหัส</th>
+        <th>ชื่อหน่วยบริการ</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="h in hospitals">
+        <td>{{ $index + 1 }}</td>
+        <td>{{ h.hospcode}}</td>
+        <td>{{ h.hospname }}</td>
+        <td><button type="button" class="btn btn-danger btn-sm" ng-click="doRemoveHospital($index)"><i class="fa fa-remove"></i></button></td>
+      </tr>
+      <tr>
+        <td width="10%" colspan="2">
+          <input type="text" placeholder="รหัสหน่วยบริการ" class="form-control" ng-model="newHospitalCode" ng-keypress="searchHospital($event)"/>
+        </td>
+        <td>
+          <input type="text" class="form-control" disabled ng-model="newHospitalName"/>
+        </td>
+        <td>
+          <button type="button" class="btn btn-success btn-sm" ng-click="doAddHospital()" ng-disabled="!readySave">
+            <i class="fa fa-plus"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="panel-footer">
+    <button type="button" class="btn btn-success" ng-click="doSaveHospital()">
+      <i class="fa fa-save"></i> บันทึกข้อมูล
+    </button>
+  </div>
+</div>

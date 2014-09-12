@@ -1,0 +1,39 @@
+{
+  "name": "nCheck",
+  "version": "0.0.1",
+  "authors": [
+    "Satit Rianpit <rianpit@gmail.com>"
+  ],
+  "description": "OP/PP Data Importer",
+  "keywords": [
+    "his",
+    "mis",
+    "icare",
+    "emr",
+    "health",
+    "pp",
+    "op"
+  ],
+  "license": "MIT",
+  "homepage": "http://his.mkh.go.th",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.24",
+    "angular-route": "~1.2.24",
+    "angular-resource": "~1.2.24",
+    "angular-animate": "~1.2.24",
+    "angular-strap": "~2.1.0",
+    "font-awesome": "~4.2.0",
+    "ngActivityIndicator": "~0.1.6",
+    "angularjs-toaster": "~0.4.7",
+    "highcharts-ng": "~0.0.7",
+    "highcharts": "~4.0.4"
+  }
+}

@@ -1,0 +1,53 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <span class="fa fa-line-chart"></span> สถิติการรับบริการรายเดือน
+  </div>
+  <div class="panel-body">
+    <div class="nav navbar-default">
+      <form class="navbar-form navbar-left form-inline" role="form" name="mainForm">
+        <div class="form-group" ng-class="{'has-error': mainForm.startDate.$invalid}">
+          <label class="control-label"><i class="fa fa-calendar"></i> ตั้งแต่</label>
+          <input type="text" class="form-control" style="width: 120px;" name="startDate" ng-model="startDate" data-dateType="date"  bs-datepicker required>
+        </div>
+        <div class="form-group" ng-class="{'has-error': mainForm.endDate.$invalid}">
+          <label class="control-label"><i class="fa fa-calendar"></i> ถึง</label>
+          <input type="text" class="form-control" style="width: 120px;" name="endDate" ng-model="endDate" data-dateType="date" bs-datepicker required>
+        </div>
+        <div class="form-group">
+          <select class="form-control" ng-model="hospital" style="width: 240px;" id="slHospital" ng-options="h.hospcode as '['+h.hospcode+'] ' + h.hosptype + h.name for h in hospitals" required>
+
+          </select>
+        </div>
+        <button type="button" class="btn btn-success" ng-disabled="mainForm.$invalid" ng-click="doFilter()">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="row" ng-show="isSuccess">
+      <div class="col-sm-6">
+        <table class="table table-condensed">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>เดือน</th>
+            <th>ปี</th>
+            <th>ครั้ง</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="r in result">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ r.month.shortName }}</td>
+            <td>{{ r.year }}</td>
+            <td>{{ r.total | number }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-6">
+        <highchart config="chartConfig"></highchart>
+      </div>
+    </div>
+  </div>
+</div>

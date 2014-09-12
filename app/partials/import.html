@@ -1,0 +1,60 @@
+<toaster-container toaster-options="{'time-out': 3000, 'close-button': true}">
+
+</toaster-container>
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <span class="fa-stack">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-database fa-stack-1x fa-inverse"></i>
+      </span> นำเข้าไฟล์ 43 แฟ้ม
+    </h3>
+
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="input-group">
+          <input type="text" class="form-control disabled-text" ng-model="filePath" readonly>
+          <span class="input-group-btn">
+            <div class="btn btn-primary btn-file">
+              <input type="file" accept=".zip" onchange="angular.element(this).scope().fileChange(this)"/> <i class="fa fa-search"></i> เลือกไฟล์...
+            </div>
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="btn btn-success" type="button" ng-click="doImport()" ng-disabled="!readyImport"><span class="fa fa-database"></span> นำเข้าข้อมูล</button>
+  </div>
+</div>
+
+  <div class="alert alert-info">
+    <strong>ผลการนำเข้าไฟล์</strong> : เมื่อไฟล์ถูกนำเข้าแล้วจะแสดงสถานะในตารางข้างล่างนี้
+  </div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>ชื่อไฟล์</th>
+    <th>นำเข้า</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="f in importedFile">
+    <td>{{ $index + 1 }}</td>
+    <td>{{ f.fileName }}</td>
+    <td>
+      <span class="fa fa-check" ng-if="f.imported"></span>
+      <span class="fa fa-remove" ng-if="!f.imported"></span>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<script type="text/ng-template" id="templateDialog.html">
+  <p>Hello</p>
+</script>
