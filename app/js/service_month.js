@@ -44,8 +44,8 @@ App.controller('ServiceMonthCtrl', function ($scope, $rootScope, $activityIndica
     },
     {
       code: 4,
-      shortName: 'ก.พ.',
-      fullName: 'กุมภาพันธ์'
+      shortName: 'เม.ย.',
+      fullName: 'เมษายน'
     },
     {
       code: 5,
@@ -164,6 +164,11 @@ App.controller('ServiceMonthCtrl', function ($scope, $rootScope, $activityIndica
         endDate = moment($scope.endDate).format('YYYY-MM-DD');
 
     $rootScope.showLoading = true;
+
+    // clear old data
+    $scope.result = [];
+    $scope.chartConfig.series[0].data = [];
+    $scope.chartConfig.xAxis.categories = [];
 
     ServiceFactory.getResult(startDate, endDate, hospital)
       .then(function (data) {
