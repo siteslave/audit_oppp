@@ -1,0 +1,73 @@
+<toaster-container toaster-options="{'time-out': 3000, 'close-button': true}"></toaster-container>
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <span class="fa-stack">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-check-circle-o fa-stack-1x fa-inverse"></i>
+      </span> รายชื่อไฟล์ที่รอการตรวจสอบ
+    </h3>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>ชื่อไฟล์</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="f in files">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ f }}</td>
+            <td>
+              <button type="button" class="btn btn-success" title="ตรวจสอบไฟล์"
+                ng-click="doCheckFile(f)" ng-disabled="isChecking">
+                <i class="fa fa-sign-in"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <div class="panel-footer">
+
+  </div>
+</div>
+
+  <!--<div class="alert alert-info">-->
+    <!--<strong>ผลการนำเข้าไฟล์</strong> : เมื่อไฟล์ถูกนำเข้าแล้วจะแสดงสถานะในตารางข้างล่างนี้-->
+  <!--</div>-->
+<table class="table table-condensed">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>ชื่อไฟล์</th>
+    <th>ทั้งหมด</th>
+    <th>ไม่ผ่าน</th>
+    <th>ผ่าน</th>
+    <th>% ผ่าน</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="r in results">
+      <td>{{ $index+1 }}</td>
+      <td>{{ r.file_name }}</td>
+      <td><strong>{{ r.total | number }}</strong></td>
+      <td><span class="text-danger"><strong>{{ r.total_error | number }}</strong></span></td>
+      <td><span class="text-success"><strong>{{ r.total_pass | number }}</strong></span></td>
+      <td><span class="text-info"><strong>{{ (r.total_pass*100)/r.total | number:2 }}%</strong></span></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<script type="text/ng-template" id="templateDialog.html">
+  <p>Hello</p>
+</script>

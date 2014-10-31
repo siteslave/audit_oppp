@@ -33,7 +33,7 @@ App.controller('SettingCtrl', function ($scope, $rootScope, $activityIndicator, 
         .then(function (data) {
           if (_.size(data)) {
             $scope.readySave = true;
-            $scope.newHospitalName = data[0].hosptype + data[0].name;
+            $scope.newHospitalName = data[0].hospname;
           } else {
             $scope.newHospitalName = '*';
             $scope.readySave = false;
@@ -83,7 +83,7 @@ App.factory('SettingFactory', function ($q) {
   settingFactory.searchHospital = function ($h) {
     var deferred = $q.defer();
 
-    knex('ref_hospcode')
+    knex('chospcode')
       .where('hospcode', $h)
       .limit(1)
       .exec(function(err, data) {

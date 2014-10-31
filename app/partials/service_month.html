@@ -14,7 +14,7 @@
           <input type="text" class="form-control" style="width: 120px;" name="endDate" ng-model="endDate" data-dateType="date" bs-datepicker required>
         </div>
         <div class="form-group">
-          <select class="form-control" ng-model="hospital" style="width: 240px;" id="slHospital" ng-options="h.hospcode as '['+h.hospcode+'] ' + h.hosptype + h.name for h in hospitals" required>
+          <select class="form-control" ng-model="hospital" style="width: 240px;" id="slHospital" ng-options="h.hospcode as '['+h.hospcode+'] ' + h.hospname for h in hospitals" required>
 
           </select>
         </div>
@@ -24,6 +24,8 @@
       </form>
     </div>
 
+    <br/>
+
     <div class="row" ng-show="isSuccess">
       <div class="col-sm-6">
         <table class="table table-condensed">
@@ -32,6 +34,7 @@
             <th>#</th>
             <th>เดือน</th>
             <th>ปี</th>
+            <th>คน</th>
             <th>ครั้ง</th>
           </tr>
           </thead>
@@ -40,7 +43,8 @@
             <td>{{ $index + 1 }}</td>
             <td>{{ r.month.shortName }}</td>
             <td>{{ r.year }}</td>
-            <td>{{ r.total | number }}</td>
+            <td>{{ r.total_p | number }}</td>
+            <td>{{ r.total_t | number }}</td>
           </tr>
           </tbody>
         </table>

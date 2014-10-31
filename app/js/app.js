@@ -19,6 +19,10 @@ App.config(function($routeProvider, $datepickerProvider, $activityIndicatorProvi
       templateUrl: 'partials/service_month.html',
       controller: 'ServiceMonthCtrl'
     })
+    .when('/validator', {
+      templateUrl: 'partials/validator.html',
+      controller: 'ValidatorCtrl'
+    })
     .otherwise({
       redirectTo: '/'
     });

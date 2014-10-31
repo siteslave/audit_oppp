@@ -16,10 +16,6 @@ var knex = require('knex')({
   }
 });
 
-angular.element(document).ready(function() {
-  angular.bootstrap(document, ['App']);
-});
-
 App.controller('ServiceMonthCtrl', function ($scope, $rootScope, $activityIndicator, ServiceFactory) {
 
   $activityIndicator.startAnimating();
@@ -120,11 +116,16 @@ App.controller('ServiceMonthCtrl', function ($scope, $rootScope, $activityIndica
     //The below properties are watched separately for changes.
 
     //Series object (optional) - a list of series using normal highcharts series options.
-    series: [{
-      //data: [10, 15, 12, 8, 7]
-      name: 'Visit OP',
-      data: []
-    }],
+    series: [
+      {
+        data: [],
+        name: 'คน'
+      },
+        {
+        data: [],
+        name: 'ครั้ง'
+      }
+    ],
     //Title configuration (optional)
     title: {
       text: 'สถิติรายเดือน​(OP Visit)'
@@ -140,7 +141,7 @@ App.controller('ServiceMonthCtrl', function ($scope, $rootScope, $activityIndica
     },
     yAxis: {
       title: {
-        text: 'ครั้ง'
+        text: 'คน/ครั้ง'
       }
     },
     //Whether to use HighStocks instead of HighCharts (optional). Defaults to false.
@@ -166,22 +167,45 @@ App.controller('ServiceMonthCtrl', function ($scope, $rootScope, $activityIndica
     $rootScope.showLoading = true;
 
     // clear old data
-    $scope.result = [];
     $scope.chartConfig.series[0].data = [];
+    $scope.chartConfig.series[1].data = [];
+
+    $scope.result = [];
     $scope.chartConfig.xAxis.categories = [];
 
+    // hide result and graph
+    $scope.isSuccess = false;
+
+    // get result
     ServiceFactory.getResult(startDate, endDate, hospital)
       .then(function (data) {
         $scope.result = [];
+
+        //$scope.chartConfig.series[0].name = 'คน';
+        //$scope.chartConfig.series[1].name = 'ครั้ง';
+
+//        _.each(data, function (v) {
+//          var obj = {};
+//          obj.month = _.findWhere($scope.month, {code: v.m});
+//          $scope.chartConfig.xAxis.categories.push(obj.month.shortName);
+//        });
+
         _.each(data, function (v) {
           var obj = {};
           obj.month = _.findWhere($scope.month, {code: v.m});
           obj.year = parseInt(v.y) + 543;
-          obj.total = v.t;
+          obj.total_t = v.t;
+          obj.total_p = v.p;
+
           $scope.result.push(obj);
-          $scope.chartConfig.series[0].data.push(v.t);
+          $scope.chartConfig.series[0].data.push(v.p);
+          $scope.chartConfig.series[1].data.push(v.t);
+
           $scope.chartConfig.xAxis.categories.push(obj.month.shortName);
+
         });
+
+
         $rootScope.showLoading = false;
         $scope.isSuccess = true;
       }, function (err) {
@@ -201,8 +225,8 @@ App.factory('ServiceFactory', function ($q) {
     var q = $q.defer();
 
     knex
-      .select('hospcode', 'hosptype', 'name')
-      .from('ref_hospcode')
+      .select('hospcode', 'hospname')
+      .from('chospcode')
       .whereIn('hospcode', h)
       .exec(function (err, data) {
         if (err) q.reject(err);
@@ -251,17 +275,17 @@ App.factory('ServiceFactory', function ($q) {
       .select('code');
 
     knex
-      .select(knex.raw('month(s.date_serv) as m'), knex.raw('year(s.date_serv) as y'),
-        knex.raw('count(DISTINCT s.seq) as t')
+      .select(knex.raw('MONTH(s.DATE_SERV) as m'), knex.raw('YEAR(s.DATE_SERV) as y'),
+        knex.raw('COUNT(DISTINCT s.SEQ) as t'), knex.raw('COUNT(DISTINCT s.PID) as p')
       )
       .from('service as s')
-      .innerJoin('diagnosis_opd as d', 'd.seq', 's.seq')
-      .whereNotIn('d.diagcode', ppCode)
-      .where('d.diagtype', '1')
-      .where('s.hospcode', hospcode)
-      .whereBetween('s.date_serv', [startDate, endDate])
-      .groupByRaw('month(s.date_serv)')
-      .groupByRaw('year(s.date_serv)')
+      .innerJoin('diagnosis_opd as d', 'd.SEQ', 's.SEQ')
+      .whereNotIn('d.DIAGCODE', ppCode)
+      .where('d.DIAGTYPE', '1')
+      .where('s.HOSPCODE', hospcode)
+      .whereBetween('s.DATE_SERV', [startDate, endDate])
+      .groupByRaw('MONTH(s.DATE_SERV)')
+      .groupByRaw('YEAR(s.DATE_SERV)')
       .orderBy('m')
       .orderBy('y')
       .exec(function (err, docs) {
